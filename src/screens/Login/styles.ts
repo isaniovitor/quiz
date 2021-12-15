@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+import Text from '~/components/Text';
+
 export const Container = styled.View`
   flex: 1;
   justify-content: center;
@@ -44,13 +46,17 @@ export const CreateAccountContainer = styled.View`
   width: 90%;
 `;
 
-export const CreateAccountText = styled.Text`
+export const CreateAccountText = styled(Text).attrs(({ theme }) => ({
+  fontSize: 14,
+}))`
   padding-bottom: 5px;
 
   color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
-export const CreateAccountButton = styled.Text`
+export const CreateAccountButton = styled(Text).attrs(({ theme }) => ({
+  fontSize: 14,
+}))`
   font-weight: 700;
 
   color: ${({ theme }) => theme.Colors.WHITE};

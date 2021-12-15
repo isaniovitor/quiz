@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import type { TextInputProps } from 'react-native';
 import { Text } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
+
+import type { AplicationState } from '~/@types/entities/AplicationState';
 
 // import { sfs } from '~/utils/responsibleText';
 
@@ -35,6 +38,7 @@ const Input: React.FC<TextInputProps & InputProps> = ({
   ...rest
 }) => {
   const { Colors } = useContext(ThemeContext);
+  const { delta } = useSelector((state: AplicationState) => state.font);
 
   return (
     <S.InputWrapper width={width}>
@@ -44,7 +48,12 @@ const Input: React.FC<TextInputProps & InputProps> = ({
         <S.Container labelSameLine={labelSameLine}>
           {label && <S.Label>{label}</S.Label>}
           <S.ContainerInput error={error} labelSameLine={labelSameLine}>
-            <S.Input {...rest} autoCapitalize="none" iconRight={iconRight} />
+            <S.Input
+              {...rest}
+              autoCapitalize="none"
+              customFontSize={12 + delta}
+              iconRight={iconRight}
+            />
             {iconRight && (
               <S.Touchable onPress={() => actionIcon && actionIcon()}>
                 <S.IconInput iconType={iconType} name={iconRight} />

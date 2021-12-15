@@ -22,6 +22,7 @@ interface ContainerInputProps {
 }
 
 interface TextInputProps {
+  customFontSize: number;
   iconRight?: string;
 }
 
@@ -62,11 +63,15 @@ export const Container = styled.View<ContainerProps>`
   justify-content: center;
 `;
 
-export const Input = styled.TextInput.attrs<TextInputProps>(({ theme }) => ({
-  placeholderTextColor: theme.Colors.WHITE,
-}))<TextInputProps>`
+export const Input = styled.TextInput.attrs<TextInputProps>(
+  ({ customFontSize, theme }) => ({
+    fontSize: customFontSize,
+    placeholderTextColor: theme.Colors.WHITE,
+  }),
+)<TextInputProps>`
   width: ${({ iconRight }) => (iconRight ? 90 : 100)}%;
-  font-size: 12px;
+  /* font-size: 12px; */
+  color: ${({ theme }) => theme.Colors.WHITE};
   margin-bottom: ${vs(10)}px;
   margin-left: 10px;
 `;

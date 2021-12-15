@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 import Icon from '~/components/Icon';
+import Text from '~/components/Text';
 
 export const Container = styled.View`
   flex: 1;
@@ -13,20 +14,22 @@ export const Container = styled.View`
 // result
 export const ResultContainer = styled.View`
   /* text-justify: distribute; */
-  flex: 0.2;
+  flex: 0.28;
   justify-content: center;
   align-items: center;
 
   background-color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
-  border-radius: 50px;
+  border-radius: 100px;
 
   margin-bottom: 15px;
   height: 20px;
   width: 40%;
 `;
 
-export const ResultTitle = styled.Text`
-  font-size: 57px;
+export const ResultTitle = styled(Text).attrs(({ theme }) => ({
+  fontSize: 55,
+}))`
+  /* font-size: 57px; */
   text-align: justify;
 
   color: ${({ theme }) => theme.Colors.BUTTON_WHITE_TEXT_INVERSE};
@@ -34,7 +37,7 @@ export const ResultTitle = styled.Text`
 
 // resume
 export const ResumeContainer = styled.View`
-  flex: 0.5;
+  flex: 0.45;
   justify-content: center;
   align-items: center;
 

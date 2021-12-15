@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+import Text from '~/components/Text';
+
 import { DARK, LIGHT } from '~/constants/theme';
 
 import Icon from '../Icon';
@@ -29,8 +31,9 @@ export const ButtonCategory = styled.TouchableOpacity`
   border-radius: 15px;
 `;
 
-export const TextButton = styled.Text`
-  font-size: 20px;
+export const TextButton = styled(Text).attrs(({ theme }) => ({
+  fontSize: 20,
+}))`
   color: ${({ theme }) => theme.Colors.BUTTON_WHITE_TEXT};
 `;
 

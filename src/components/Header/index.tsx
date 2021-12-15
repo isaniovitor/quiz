@@ -1,10 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '~/components/Input';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
+import {
+  decrementFontSize,
+  incrementFontSize,
+  recoveryFontSize,
+} from '~/store/ducks/font/actions';
 import { toogleTheme } from '~/store/ducks/theme/actions';
 
 import * as Sty from './styles';
@@ -30,9 +35,22 @@ export function Header({
     <Sty.Container headerMenu={headerMenu}>
       {/* mudar tema aq */}
       <Sty.AceContainer>
-        <Sty.ButtonLeft onPress={() => dispatch(toogleTheme())}>
-          <Sty.IconChangeTheme />
-        </Sty.ButtonLeft>
+        <Sty.AceContainerLeft>
+          <Sty.ButtonHeaderUp onPress={() => dispatch(toogleTheme())}>
+            <Sty.IconChangeTheme />
+          </Sty.ButtonHeaderUp>
+        </Sty.AceContainerLeft>
+        <Sty.AceContainerRight>
+          <Sty.ButtonHeaderUp onPress={() => dispatch(decrementFontSize())}>
+            <Sty.SizeText>A-</Sty.SizeText>
+          </Sty.ButtonHeaderUp>
+          <Sty.ButtonHeaderUp onPress={() => dispatch(recoveryFontSize())}>
+            <Sty.SizeText>A</Sty.SizeText>
+          </Sty.ButtonHeaderUp>
+          <Sty.ButtonHeaderUp onPress={() => dispatch(incrementFontSize())}>
+            <Sty.SizeText>A+</Sty.SizeText>
+          </Sty.ButtonHeaderUp>
+        </Sty.AceContainerRight>
       </Sty.AceContainer>
       {headerMenu && (
         <Sty.HeaderContainer>

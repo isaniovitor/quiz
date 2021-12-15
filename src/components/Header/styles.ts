@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 
 import Icon from '~/components/Icon';
+import Text from '~/components/Text';
+
 // import NewText from '~/components/text';
 
 // import { s, sfs, vs } from '~/utils/responsibleText';
@@ -27,7 +29,11 @@ export const StatusBar = styled.StatusBar.attrs(({ theme }) => ({
 
 export const ButtonLeft = styled.TouchableOpacity`
   padding-left: 15px;
-  flex: 0.12;
+  flex: 0.15;
+  color: ${({ theme }) => theme.Colors.WHITE};
+`;
+
+export const ButtonHeaderUp = styled.TouchableOpacity`
   color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
@@ -41,7 +47,7 @@ export const IconColor = styled(Icon).attrs(({ theme }) => ({
 // up header
 export const AceContainer = styled.View`
   width: 100%;
-  /* padding-top: 5px; */
+  padding: 0 15px;
 
   background-color: ${({ theme }) => theme.Colors.BACKGROUND};
 
@@ -53,12 +59,40 @@ export const AceContainer = styled.View`
   border-bottom-width: 1px; */
 `;
 
+export const AceContainerLeft = styled.View`
+  /* padding-top: 5px; */
+
+  background-color: ${({ theme }) => theme.Colors.BACKGROUND};
+
+  flex: 0.6;
+  flex-direction: row;
+  justify-content: flex-start;
+  /* align-items: center; */
+`;
+
+export const AceContainerRight = styled.View`
+  /* padding-top: 5px; */
+
+  background-color: ${({ theme }) => theme.Colors.BACKGROUND};
+
+  flex: 0.4;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 export const IconChangeTheme = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'ios-sunny-outline',
   color: 'white',
   size: 30,
 }))`
+  color: ${({ theme }) => theme.Colors.WHITE};
+`;
+
+export const SizeText = styled.Text`
+  font-size: 20px;
+  font-weight: bold
+  /* font-stretch: bold; */
   color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
@@ -110,12 +144,12 @@ export const IconSaveData = styled(Icon).attrs(({ theme }) => ({
   color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
-export const Title = styled.Text`
+export const Title = styled(Text).attrs(({ theme }) => ({
+  fontSize: 24,
+}))`
   flex: 0.8;
 
   text-align: center;
-  font-size: 24px;
-
   color: ${({ theme }) => theme.Colors.WHITE};
 `;
 

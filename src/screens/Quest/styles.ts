@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 import Icon from '~/components/Icon';
+import Text from '~/components/Text';
 
 export const Container = styled.View`
   flex: 1;
@@ -18,8 +19,9 @@ export const QuestContainer = styled.View`
   width: 90%;
 `;
 
-export const QuestTitle = styled.Text`
-  font-size: 16px;
+export const QuestTitle = styled(Text).attrs(({ theme }) => ({
+  fontSize: 13,
+}))`
   text-align: justify;
 
   color: ${({ theme }) => theme.Colors.WHITE};
@@ -39,8 +41,10 @@ export const Answer = styled.View`
   align-items: center;
 `;
 
-export const AnswerTitle = styled.Text`
-  font-size: 16px;
+export const AnswerTitle = styled(Text).attrs(({ theme }) => ({
+  fontSize: 14,
+}))`
+  /* font-size: 16px; */
 
   color: ${({ theme }) => theme.Colors.WHITE};
 `;

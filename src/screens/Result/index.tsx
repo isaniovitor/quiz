@@ -26,12 +26,12 @@ const Result: React.FC = () => {
   }
 
   // header navegation
-  useEffect(() => {
-    navigation.setOptions({
-      enableNavigation: true,
-      title: 'Resultado',
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     enableNavigation: true,
+  //     title: 'Resultado',
+  //   });
+  // }, [navigation]);
 
   return (
     <KeyboardAvoidingView

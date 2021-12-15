@@ -11,7 +11,7 @@ import Input from '~/components/Input';
 import { ModalGlobal } from '~/components/Modal';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
-import { HOME_SCREEN } from '~/constants/routes';
+import { HOME_SCREEN, LOGIN_SCREEN } from '~/constants/routes';
 import { changeProfileAction } from '~/store/ducks/user/actions';
 
 import * as Sty from './styles';
@@ -82,6 +82,11 @@ const Profile: React.FC = () => {
     navigation.navigate(HOME_SCREEN);
   }
 
+  function logout() {
+    // dispatch(changeProfileAction(userName, userPassword, userImage, userEmail));
+    navigation.navigate(LOGIN_SCREEN);
+  }
+
   // Modal
   function showModal() {
     setVisible(true);
@@ -144,7 +149,7 @@ const Profile: React.FC = () => {
           />
         </Sty.InputsContainer>
         <Sty.ButtonContainer>
-          <Button label="Sair" actionBtn={console.log('saiu')} />
+          <Button label="Sair" actionBtn={logout} />
         </Sty.ButtonContainer>
       </Sty.Container>
     </KeyboardAvoidingView>

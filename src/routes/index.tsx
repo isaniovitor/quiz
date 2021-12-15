@@ -80,7 +80,7 @@ function RootStack() {
             name={RESULT_SCREEN}
             component={Result}
             options={{
-              header: props => <Header {...props} headerMenu />,
+              header: props => <Header {...props} headerMenu={false} />,
             }}
           />
           {/* <Stack.Screen
