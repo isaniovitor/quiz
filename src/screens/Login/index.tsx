@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
+import { useFormik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
@@ -9,13 +10,14 @@ import Button from '~/components/Button';
 import Input from '~/components/Input';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
+import logo from '~/assets/logo.png';
 import { HOME_SCREEN } from '~/constants/routes';
+
+import { validationSchema } from './validations';
 
 import * as Sty from './styles';
 
 const Login: React.FC = () => {
-  const [userName, setUserName] = useState('');
-  const [userPassword, setUsePassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const navigation = useNavigation();
@@ -24,6 +26,16 @@ const Login: React.FC = () => {
   function handleLogin() {
     navigation.navigate(HOME_SCREEN);
   }
+
+  const { handleSubmit, dirty, handleChange, values, errors } = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema,
+    onSubmit: handleLogin,
+    validateOnChange: false,
+  });
 
   // header navegation
   useEffect(() => {
@@ -40,22 +52,25 @@ const Login: React.FC = () => {
     >
       <Sty.Container>
         <Sty.ImageContainer>
-          <Text>Image</Text>
+          <Sty.Image source={logo} />
         </Sty.ImageContainer>
         <Sty.InputsContainer>
           <Input
+            // title="oiolaaa"
             iconLeft="person"
             iconType="ionicons"
             placeholder="Digite seu username"
-            value={userName}
-            onChangeText={setUserName}
+            value={values.username}
+            error={errors.username}
+            onChangeText={handleChange('username')}
             width={100}
           />
           <Input
             iconLeft="lock"
             placeholder="Digite sua senha"
-            value={userPassword}
-            onChangeText={setUsePassword}
+            value={values.password}
+            error={errors.password}
+            onChangeText={handleChange('password')}
             secureTextEntry={!showPassword}
             actionIcon={() => setShowPassword(!showPassword)}
             iconRight={showPassword ? 'eye-off' : 'eye'}
@@ -63,7 +78,11 @@ const Login: React.FC = () => {
           />
         </Sty.InputsContainer>
         <Sty.ButtonContainer>
-          <Button label="Entrar" actionBtn={handleLogin} />
+          <Button
+            disabled={!dirty}
+            label="Entrar"
+            actionBtn={() => handleSubmit()}
+          />
         </Sty.ButtonContainer>
         <Sty.CreateAccountContainer>
           <Sty.CreateAccountText>ou</Sty.CreateAccountText>

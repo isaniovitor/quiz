@@ -83,17 +83,15 @@ export const AceContainerRight = styled.View`
 export const IconChangeTheme = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'ios-sunny-outline',
-  color: 'white',
+  color: theme.Colors.BACKGROUND_BUTTON_WHITE,
   size: 30,
-}))`
-  color: ${({ theme }) => theme.Colors.WHITE};
-`;
+}))``;
 
 export const SizeText = styled.Text`
   font-size: 20px;
   font-weight: bold
   /* font-stretch: bold; */
-  color: ${({ theme }) => theme.Colors.WHITE};
+  color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
 `;
 
 // down header
@@ -113,16 +111,14 @@ export const HeaderContainer = styled.View`
 export const IconBack = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'arrow-back',
-  color: 'white',
+  color: theme.Colors.BACKGROUND_BUTTON_WHITE,
   size: 30,
-}))`
-  color: ${({ theme }) => theme.Colors.WHITE};
-`;
+}))``;
 
 export const IconProfile = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'person',
-  color: 'white',
+  color: theme.Colors.BACKGROUND_BUTTON_WHITE,
   size: 30,
 }))`
   color: ${({ theme }) => theme.Colors.WHITE};
@@ -137,11 +133,10 @@ export const ImageProfile = styled.Image`
 export const IconSaveData = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'save',
-  color: 'white',
+  color: theme.Colors.BACKGROUND_BUTTON_WHITE,
   size: 30,
 }))`
   margin-left: 100px;
-  color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
 export const Title = styled(Text).attrs(({ theme }) => ({

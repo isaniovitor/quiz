@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 
 import Icon from '~/components/Icon';
+import Text from '~/components/Text';
 
 export const Container = styled.View`
   flex: 1;
@@ -21,11 +22,12 @@ export const ImageContainer = styled.View`
   width: 90%;
 `;
 
-export const ImageText = styled.Text`
+export const ImageText = styled(Text).attrs(({ theme }) => ({
+  fontSize: 12,
+}))`
   /* margin-top: 10px; */
   text-align: center;
-  font-size: 12px;
-  color: ${({ theme }) => theme.Colors.WHITE};
+  color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
 `;
 
 export const Image = styled.Image`
@@ -35,15 +37,17 @@ export const Image = styled.Image`
 `;
 
 // Inputs
-export const InputsContainer = styled.View`
+export const InputsContainer = styled.ScrollView`
   flex: 0.5;
-  justify-content: center;
-  align-items: flex-start;
+  /* justify-content: center;
+  align-items: flex-start; */
 
   width: 90%;
 `;
 
-export const InputTitle = styled.Text`
+export const InputTitle = styled(Text).attrs(({ theme }) => ({
+  fontSize: 12,
+}))`
   /* margin-top: 10px; */
 
   color: ${({ theme }) => theme.Colors.WHITE};
@@ -59,7 +63,11 @@ export const ButtonContainer = styled.View`
 `;
 
 // icon
-export const IconConteiner = styled.TouchableOpacity``;
+export const IconConteiner = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
 export const IconInput = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',

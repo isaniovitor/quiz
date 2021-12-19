@@ -1,5 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { useFormik } from 'formik';
+import { cloneDeep } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, View, Alert } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -7,14 +9,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
+import Picker from '~/components/DropDown';
 import Input from '~/components/Input';
 import { ModalGlobal } from '~/components/Modal';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
+import type { GenderProps } from '~/@types/entities/Gender';
+import { GENDERS } from '~/constants/gender';
 import { HOME_SCREEN, LOGIN_SCREEN } from '~/constants/routes';
 import { changeProfileAction } from '~/store/ducks/user/actions';
 
+import { validationSchema } from '../Login/validations';
+
 import * as Sty from './styles';
+
+interface DataProps {
+  username: string;
+  password: string;
+  email: string;
+  birthdate: string;
+  gender: GenderProps;
+  userimage: string;
+}
 
 const Profile: React.FC = () => {
   const { Colors } = useContext(ThemeContext);
@@ -23,14 +39,46 @@ const Profile: React.FC = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const { username, userimage, email, password } = useSelector(
-    (state: AplicationState) => state.user,
-  );
+  const { username, userimage, email, password, birthdate, gender } =
+    useSelector((state: AplicationState) => state.user);
 
-  const [userName, setUserName] = useState(username);
-  const [userPassword, setUsePassword] = useState(password);
-  const [userEmail, setUserEmail] = useState(email);
-  const [userImage, setUserImage] = useState(userimage);
+  function changeData(data: DataProps) {
+    dispatch(
+      changeProfileAction(
+        data.username,
+        data.password,
+        data.userimage,
+        data.email,
+        data.birthdate,
+        data.gender,
+      ),
+    );
+    navigation.navigate(HOME_SCREEN);
+  }
+
+  function logout() {
+    // dispatch(changeProfileAction(userName, userPassword, userImage, userEmail));
+    navigation.navigate(LOGIN_SCREEN);
+  }
+
+  const { handleSubmit, dirty, handleChange, values, errors, setFieldValue } =
+    useFormik({
+      initialValues: {
+        username,
+        password,
+        email,
+        userimage,
+        birthdate,
+        gender,
+      },
+      validationSchema,
+      onSubmit: changeData,
+      validateOnChange: false,
+    });
+
+  function handlegender(item: any) {
+    setFieldValue('gender', item);
+  }
 
   // image config
   useEffect(() => {
@@ -56,9 +104,8 @@ const Profile: React.FC = () => {
     });
 
     if (!result.cancelled) {
-      setUserImage(result.uri);
+      setFieldValue('userimage', result.uri);
     }
-
     setVisible(false);
   };
 
@@ -71,21 +118,11 @@ const Profile: React.FC = () => {
     });
 
     if (!result.cancelled) {
-      setUserImage(result.uri);
+      setFieldValue('userimage', result.uri);
     }
 
     setVisible(false);
   };
-
-  function changeData() {
-    dispatch(changeProfileAction(userName, userPassword, userImage, userEmail));
-    navigation.navigate(HOME_SCREEN);
-  }
-
-  function logout() {
-    // dispatch(changeProfileAction(userName, userPassword, userImage, userEmail));
-    navigation.navigate(LOGIN_SCREEN);
-  }
 
   // Modal
   function showModal() {
@@ -97,9 +134,9 @@ const Profile: React.FC = () => {
     navigation.setOptions({
       enableNavigation: true,
       title: 'Perfil',
-      save: changeData,
+      save: handleSubmit,
     });
-  }, [changeData, navigation]);
+  }, [handleSubmit, navigation]);
 
   return (
     <KeyboardAvoidingView
@@ -116,40 +153,61 @@ const Profile: React.FC = () => {
               actionButtonLeft={pickImage}
               actionButtonRight={selectImage}
             />
-            {userImage ? (
-              <Sty.Image source={{ uri: userImage }} />
+            {values.userimage ? (
+              <Sty.Image source={{ uri: values.userimage }} />
             ) : (
               <Sty.IconInput />
             )}
             <Sty.ImageText>Mundar imagem</Sty.ImageText>
           </Sty.IconConteiner>
         </Sty.ImageContainer>
-        <Sty.InputsContainer>
-          <Sty.InputTitle>Nome</Sty.InputTitle>
+
+        <Sty.InputsContainer showsVerticalScrollIndicator={false}>
           <Input
+            title="Nome"
             iconType="ionicons"
             placeholder="Digite seu username"
-            value={userName}
-            onChangeText={setUserName}
+            value={values.username}
+            error={errors.username}
+            onChangeText={handleChange('username')}
             width={100}
           />
-          <Sty.InputTitle>Email</Sty.InputTitle>
           <Input
+            title="Email"
             placeholder="Digite sua email"
-            value={userEmail}
-            onChangeText={setUserEmail}
+            value={values.email}
+            onChangeText={handleChange('email')}
             width={100}
           />
-          <Sty.InputTitle>Senha</Sty.InputTitle>
           <Input
+            title="Senha"
             placeholder="Digite sua senha"
-            value={userPassword}
-            onChangeText={setUsePassword}
+            value={values.password}
+            error={errors.password}
+            onChangeText={handleChange('password')}
             width={100}
           />
+          <Input
+            title="Data Nascimento"
+            placeholder="Digite sua senha"
+            value={values.birthdate}
+            onChangeText={handleChange('birthdate')}
+            width={100}
+          />
+          {/* <Picker
+            title="Gênero"
+            itemSelect={values.gender}
+            setItem={item => {
+              setFieldValue('gender', item.id);
+              // const new_gender: GenderProps = { id: item.id, name: item.name };
+              // setFieldValue('gender', item.id);
+            }}
+            genders={GENDERS}
+            disabled={false}
+          /> */}
         </Sty.InputsContainer>
         <Sty.ButtonContainer>
-          <Button label="Sair" actionBtn={logout} />
+          <Button label="Sair" actionBtn={() => logout()} />
         </Sty.ButtonContainer>
       </Sty.Container>
     </KeyboardAvoidingView>

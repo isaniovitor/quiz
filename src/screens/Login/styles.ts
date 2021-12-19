@@ -19,6 +19,11 @@ export const ImageContainer = styled.View`
   width: 90%;
 `;
 
+export const Image = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
 // Inputs
 export const InputsContainer = styled.View`
   flex: 0.25;
@@ -35,6 +40,7 @@ export const ButtonContainer = styled.View`
   align-items: center;
 
   width: 90%;
+  padding-top: 15px;
 `;
 
 // CreateAccount

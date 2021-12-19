@@ -8,6 +8,8 @@ const INITIAL_STATE: UserState = {
   password: '',
   userimage: '',
   email: '',
+  birthdate: '',
+  gender: { id: '0', name: '' },
   islogged: false,
 };
 
@@ -26,6 +28,8 @@ const reducer: Reducer<UserState> = (
         password: payload.password,
         userimage: payload.userimage,
         email: payload.email,
+        birthdate: payload.birthdate,
+        gender: payload.gender,
         islogged: true,
       };
     default:

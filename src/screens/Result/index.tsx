@@ -7,6 +7,7 @@ import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
 import Input from '~/components/Input';
+import ResultQuiz from '~/components/ResultQuiz';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
 import { HOME_SCREEN, RESULT_SCREEN } from '~/constants/routes';
@@ -44,9 +45,9 @@ const Result: React.FC = () => {
           <Sty.ResultTitle>90%</Sty.ResultTitle>
         </Sty.ResultContainer>
         <Sty.ResumeContainer>
-          <Text>7 fáceis</Text>
-          <Text>7 fáceis</Text>
-          <Text>7 fáceis</Text>
+          <ResultQuiz label="Fáceis" numberQuestions={2} />
+          <ResultQuiz label="Medianas" numberQuestions={1} />
+          <ResultQuiz label="Difíceis" numberQuestions={3} />
           {/* <Sty.Resume>
             <Text>7 fáceis</Text>
           </Sty.Resume>

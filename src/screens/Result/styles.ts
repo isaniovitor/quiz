@@ -18,12 +18,13 @@ export const ResultContainer = styled.View`
   justify-content: center;
   align-items: center;
 
-  background-color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
-  border-radius: 100px;
+  border: 1px solid ${({ theme }) => theme.Colors.WHITE};
+  background-color: ${({ theme }) => theme.Colors.BACKGROUND_WHITE};
+  border-radius: 20px;
 
   margin-bottom: 15px;
   height: 20px;
-  width: 40%;
+  width: 90%;
 `;
 
 export const ResultTitle = styled(Text).attrs(({ theme }) => ({
@@ -32,17 +33,21 @@ export const ResultTitle = styled(Text).attrs(({ theme }) => ({
   /* font-size: 57px; */
   text-align: justify;
 
-  color: ${({ theme }) => theme.Colors.BUTTON_WHITE_TEXT_INVERSE};
+  color: ${({ theme }) => theme.Colors.TEXT_BLUE_WHITE};
 `;
 
 // resume
 export const ResumeContainer = styled.View`
   flex: 0.45;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 
   /* border: 1px solid red;
   border-top-left-radius: 50px; */
+  border: 1px solid ${({ theme }) => theme.Colors.WHITE};
+  background: ${({ theme }) => theme.Colors.BACKGROUND_WHITE};
+  border-radius: 20px;
+  /* padding: 30px 0; */
 
   width: 90%;
 `;

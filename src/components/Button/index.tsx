@@ -4,12 +4,13 @@ import * as Sty from './styles';
 
 interface ButtonProps {
   label: string;
+  disabled?: boolean;
   actionBtn: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, actionBtn }) => {
+const Button: React.FC<ButtonProps> = ({ label, actionBtn, disabled }) => {
   return (
-    <Sty.Button onPress={actionBtn}>
+    <Sty.Button disabled={disabled} onPress={actionBtn}>
       <Sty.TextButton>{label}</Sty.TextButton>
     </Sty.Button>
   );
