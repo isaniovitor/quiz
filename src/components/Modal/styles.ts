@@ -5,6 +5,7 @@ export const Container = styled.View`
   flex-direction: row;
   border-radius: 6px;
   padding: 5px;
+  background: white;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -12,7 +13,6 @@ export const Button = styled.TouchableOpacity`
   padding: 20px;
   align-items: center;
   border-radius: 5px;
-  background: white;
 `;
 
 export const TextButton = styled.Text`

@@ -25,14 +25,14 @@ export const ButtonCategory = styled.TouchableOpacity`
   justify-content: center;
 
   width: 90%;
-  height: 45px;
+  height: 60px;
 
   font-size: 20px;
   border-radius: 15px;
 `;
 
 export const TextButton = styled(Text).attrs(({ theme }) => ({
-  fontSize: 20,
+  fontSize: 16,
 }))`
   color: ${({ theme }) => theme.Colors.BUTTON_WHITE_TEXT};
 `;

@@ -11,22 +11,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.Colors.BACKGROUND};
 `;
 
-// Quest
-export const QuestContainer = styled.View`
-  /* text-justify: distribute; */
-  flex: 0.2;
-  margin-bottom: 15px;
-  width: 90%;
-`;
-
-export const QuestTitle = styled(Text).attrs(({ theme }) => ({
-  fontSize: 13,
-}))`
-  text-align: justify;
-
-  color: ${({ theme }) => theme.Colors.WHITE};
-`;
-
 // answer
 export const AnswerContainer = styled.View`
   flex: 0.5;
@@ -34,19 +18,6 @@ export const AnswerContainer = styled.View`
   align-items: flex-start;
 
   width: 90%;
-`;
-
-export const Answer = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-export const AnswerTitle = styled(Text).attrs(({ theme }) => ({
-  fontSize: 14,
-}))`
-  /* font-size: 16px; */
-
-  color: ${({ theme }) => theme.Colors.WHITE};
 `;
 
 export const InputTitle = styled.Text`

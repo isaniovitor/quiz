@@ -1,7 +1,5 @@
 import styled from 'styled-components/native';
 
-import { DARK, LIGHT } from '~/constants/theme';
-
 import Text from '../Text';
 
 export const Button = styled.TouchableOpacity`
@@ -13,6 +11,7 @@ export const Button = styled.TouchableOpacity`
   height: 45px;
 
   background: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
+  /* background: white; */
 
   font-size: 20px;
   margin: 0 auto;

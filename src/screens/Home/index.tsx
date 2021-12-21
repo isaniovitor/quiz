@@ -1,42 +1,38 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Text } from 'react-native-paper';
 import { black } from 'react-native-paper/lib/typescript/styles/colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '~/components/Button';
 import ButtonCategory from '~/components/category';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
+import type { CategoryProps } from '~/@types/entities/Category';
 import { PROFILE_SCREEN, QUEST_SCREEN } from '~/constants/routes';
+import { getCategorySubjectAction } from '~/store/ducks/category/actions';
 
 import * as Sty from './styles';
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
-  const CATEGORIES = [
-    { id: 1, name: 'Carnes' },
-    { id: 2, name: 'Frutas' },
-    { id: 3, name: 'Legumes' },
-    { id: 4, name: 'Limpeza' },
-    { id: 1, name: 'Carnes' },
-    { id: 2, name: 'Frutas' },
-    { id: 3, name: 'Legumes' },
-    { id: 4, name: 'Limpeza' },
-    { id: 1, name: 'Carnes' },
-    { id: 2, name: 'Frutas' },
-    { id: 3, name: 'Legumes' },
-    { id: 4, name: 'Limpeza' },
-  ];
-  const { theme } = useSelector((state: AplicationState) => state.theme);
+
+  const [idCategory, setIdCategory] = useState(10);
+  // const { theme } = useSelector((state: AplicationState) => state.theme);
+  const { categoryListSubject } = useSelector(
+    (state: AplicationState) => state.category,
+  );
+
+  console.tron.log('categories', categoryListSubject);
 
   function handleViewProfile() {
+    // passar id por aq?
     navigation.navigate(PROFILE_SCREEN);
   }
 
   function handleQuest() {
-    navigation.navigate(QUEST_SCREEN);
+    navigation.navigate(QUEST_SCREEN, { category: idCategory });
   }
 
   // header navegation
@@ -60,8 +56,8 @@ const Home: React.FC = () => {
       <Sty.ListContainer>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={CATEGORIES}
-          extraData={CATEGORIES}
+          data={categoryListSubject}
+          extraData={categoryListSubject}
           renderItem={renderCategory}
           keyExtractor={(item: any, index: any) => index}
         />
