@@ -1,26 +1,26 @@
 import type { Action } from 'redux';
 
-export enum CategorySubjectTypes {
-  GET_CATEGORY = '@categorySubject/GET_CATEGORY',
-  GET_CATEGORY_SUCCESS = '@categorySubject/GET_CATEGORY_SUCCESS',
-  GET_CATEGORY_ERROR = '@categorySubject/GET_CATEGORY_ERROR',
+export enum CategoryTypes {
+  GET_CATEGORY = '@category/GET_CATEGORY',
+  GET_CATEGORY_SUCCESS = '@category/GET_CATEGORY_SUCCESS',
+  GET_CATEGORY_ERROR = '@category/GET_CATEGORY_ERROR',
 }
 
-export interface CategorySubjectState {
-  categoryListSubject: any[];
-  loadingCategorySubject: boolean;
+export interface CategoryState {
+  categoryList: any[];
+  loadingCategory: boolean;
   errorGetCategory: boolean;
 }
 
-export interface GetCategorySubjectActionProps extends Action {
-  type: CategorySubjectTypes.GET_CATEGORY;
+export interface GetCategoryActionProps extends Action {
+  type: CategoryTypes.GET_CATEGORY;
 }
 
-export interface GetCategorySubjectSuccessActionProps extends Action {
-  type: CategorySubjectTypes.GET_CATEGORY_SUCCESS;
-  payload: { categoryListSubject: any[] };
+export interface GetCategorySuccessActionProps extends Action {
+  type: CategoryTypes.GET_CATEGORY_SUCCESS;
+  payload: { categoryList: any[] };
 }
 
-export interface GetCategorySubjectErrorActionProps extends Action {
-  type: CategorySubjectTypes.GET_CATEGORY_ERROR;
+export interface GetCategoryErrorActionProps extends Action {
+  type: CategoryTypes.GET_CATEGORY_ERROR;
 }

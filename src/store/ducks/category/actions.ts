@@ -1,20 +1,19 @@
 import { action } from 'typesafe-actions';
 
 import type {
-  GetCategorySubjectActionProps,
-  GetCategorySubjectSuccessActionProps,
-  GetCategorySubjectErrorActionProps,
+  GetCategoryActionProps,
+  GetCategoryErrorActionProps,
+  GetCategorySuccessActionProps,
 } from './types';
-import { CategorySubjectTypes } from './types';
+import { CategoryTypes } from './types';
 
-export const getCategorySubjectAction = (): GetCategorySubjectActionProps =>
-  action(CategorySubjectTypes.GET_CATEGORY);
+export const getCategoryAction = (): GetCategoryActionProps =>
+  action(CategoryTypes.GET_CATEGORY);
 
-export const getCategorySubjectSuccessAction = (
-  categoryListSubject: any[],
-): GetCategorySubjectSuccessActionProps =>
-  action(CategorySubjectTypes.GET_CATEGORY_SUCCESS, { categoryListSubject });
+export const getCategorySuccessAction = (
+  categoryList: any[],
+): GetCategorySuccessActionProps =>
+  action(CategoryTypes.GET_CATEGORY_SUCCESS, { categoryList });
 
-export const getCategorySubjectErrorAction =
-  (): GetCategorySubjectErrorActionProps =>
-    action(CategorySubjectTypes.GET_CATEGORY_ERROR);
+export const getCategoryErrorAction = (): GetCategoryErrorActionProps =>
+  action(CategoryTypes.GET_CATEGORY_ERROR);

@@ -12,7 +12,7 @@ import Input from '~/components/Input';
 import type { AplicationState } from '~/@types/entities/AplicationState';
 import logo from '~/assets/logo.png';
 import { HOME_SCREEN } from '~/constants/routes';
-import { getCategorySubjectAction } from '~/store/ducks/category/actions';
+import { getCategoryAction } from '~/store/ducks/category/actions';
 
 import { validationSchema } from './validations';
 
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   const { Colors } = useContext(ThemeContext);
 
   function handleLogin() {
-    dispatch(getCategorySubjectAction());
+    dispatch(getCategoryAction());
     navigation.navigate(HOME_SCREEN);
   }
 

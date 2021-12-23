@@ -2,11 +2,8 @@ import { all, call, takeLatest, put } from 'redux-saga/effects';
 
 import { getCategory } from '~/services/category';
 
-import {
-  getCategorySubjectSuccessAction,
-  getCategorySubjectErrorAction,
-} from './actions';
-import { CategorySubjectTypes } from './types';
+import { getCategoryErrorAction, getCategorySuccessAction } from './actions';
+import { CategoryTypes } from './types';
 
 interface ResponseGenerator {
   config?: any;
@@ -17,23 +14,21 @@ interface ResponseGenerator {
   statusText?: string;
 }
 
-function* getCategorySubjectSagas() {
+function* getCategorySagas() {
   try {
     const response: ResponseGenerator = yield call(getCategory);
 
     if (response.status >= 200 && response.status < 300) {
-      const categoryListSubject = response.data.trivia_categories;
-      yield put(getCategorySubjectSuccessAction(categoryListSubject));
+      const categoryList = response.data.trivia_categories;
+      yield put(getCategorySuccessAction(categoryList));
     } else {
-      yield put(getCategorySubjectErrorAction());
+      yield put(getCategoryErrorAction());
     }
   } catch {
-    yield put(getCategorySubjectErrorAction());
+    yield put(getCategoryErrorAction());
   }
 }
 
 export default function* watchSaga() {
-  yield all([
-    takeLatest(CategorySubjectTypes.GET_CATEGORY, getCategorySubjectSagas),
-  ]);
+  yield all([takeLatest(CategoryTypes.GET_CATEGORY, getCategorySagas)]);
 }

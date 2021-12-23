@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
@@ -11,6 +11,7 @@ import ResultQuiz from '~/components/ResultQuiz';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
 import { HOME_SCREEN, RESULT_SCREEN } from '~/constants/routes';
+import { getQuestionsSuccessAction } from '~/store/ducks/questions/actions';
 
 import * as Sty from './styles';
 
@@ -20,9 +21,11 @@ const Result: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { Colors } = useContext(ThemeContext);
 
   function handleHome() {
+    dispatch(getQuestionsSuccessAction([]));
     navigation.navigate(HOME_SCREEN);
   }
 

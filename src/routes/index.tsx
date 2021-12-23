@@ -41,7 +41,7 @@ function RootStack() {
     <ThemeProvider theme={createTheme(theme)}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={LOGIN_SCREEN}
+          initialRouteName={HOME_SCREEN}
           screenOptions={{ gestureEnabled: false, animation: 'fade' }}
         >
           <StackLogin.Screen

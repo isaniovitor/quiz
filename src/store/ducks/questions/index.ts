@@ -1,35 +1,35 @@
 import type { Reducer } from 'redux';
 
-import type { CategoryState } from './types';
-import { CategoryTypes } from './types';
+import type { QuestionsState } from './types';
+import { QuestionsTypes } from './types';
 
-const INITIAL_STATE: CategoryState = {
-  categoryList: [],
+const INITIAL_STATE: QuestionsState = {
+  questionsList: [],
   loadingCategory: false,
   errorGetCategory: false,
 };
 
-const reducer: Reducer<CategoryState> = (
+const reducer: Reducer<QuestionsState> = (
   state = INITIAL_STATE,
   { type, payload },
 ) => {
   switch (type) {
-    case CategoryTypes.GET_CATEGORY:
+    case QuestionsTypes.GET_QUESTION:
       return {
         ...state,
         loadingCategory: true,
       };
-    case CategoryTypes.GET_CATEGORY_SUCCESS:
+    case QuestionsTypes.GET_QUESTION_SUCCESS:
       return {
         ...state,
-        categoryList: payload.categoryList,
+        questionsList: payload.questionsList,
         loadingCategory: false,
         errorGetCategory: false,
       };
-    case CategoryTypes.GET_CATEGORY_ERROR:
+    case QuestionsTypes.GET_QUESTION_ERROR:
       return {
         ...state,
-        categoryList: [],
+        questionsList: [],
         loadingCategory: false,
         errorGetCategory: true,
       };

@@ -10,6 +10,7 @@ import {
   incrementFontSize,
   recoveryFontSize,
 } from '~/store/ducks/font/actions';
+import { getQuestionsSuccessAction } from '~/store/ducks/questions/actions';
 import { toogleTheme } from '~/store/ducks/theme/actions';
 
 import * as Sty from './styles';
@@ -28,8 +29,13 @@ export function Header({
   options,
 }: HeaderProps) {
   // const { theme } = useSelector((state: AplicationState) => state.theme);
-  const dispatch = useDispatch();
   const { userimage } = useSelector((state: AplicationState) => state.user);
+  const dispatch = useDispatch();
+
+  function handleHome() {
+    dispatch(getQuestionsSuccessAction([]));
+    navigation.goBack();
+  }
 
   return (
     <Sty.Container headerMenu={headerMenu}>
@@ -57,7 +63,7 @@ export function Header({
           {/* componentes da tela com voltar */}
           {options?.enableNavigation && (
             <>
-              <Sty.ButtonLeft onPress={() => navigation.goBack()}>
+              <Sty.ButtonLeft onPress={() => handleHome()}>
                 <Sty.IconBack />
               </Sty.ButtonLeft>
               <Sty.Title>{title || options?.title}</Sty.Title>
