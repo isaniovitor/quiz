@@ -23,6 +23,9 @@ import { DIFFICULTY } from '~/constants/difficulty';
 import { HOME_SCREEN, RESULT_SCREEN } from '~/constants/routes';
 import {
   getQuestionsAction,
+  getQuestionsCorrectQuestionsAction,
+  getQuestionsInCorrectQuestionsAction,
+  getQuestionsSameLevelAction,
   getQuestionsSuccessAction,
   getQuestionsTemplateAction,
 } from '~/store/ducks/questions/actions';
@@ -30,7 +33,6 @@ import {
 import * as Sty from './styles';
 
 const Quest: React.FC = () => {
-  const braekpoints = [2, 5, 8];
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
@@ -41,43 +43,25 @@ const Quest: React.FC = () => {
   const [idCurrentLevel, setIdCurrentlLevel] = useState(0);
   const [idCurrentQuestion, setIdCurrentQuestion] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionProps>();
-  const { questionsList, template } = useSelector(
-    (state: AplicationState) => state.questions,
-  );
+  const { questionsList, template, correctQuestions, incorrectQuestions } =
+    useSelector((state: AplicationState) => state.questions);
   const { loadingQuestions } = useSelector(
     (state: AplicationState) => state.questions,
   );
 
-  // aux funcitons
-  function isCorrect(newTemplate: any) {
-    console.tron.log('tem', newTemplate);
-    return newTemplate[0].gab && newTemplate[1].gab && newTemplate[2].gab;
+  function getNextDifficulty() {
+    const newLevel = idCurrentLevel + 1;
+
+    setIdCurrentlLevel(newLevel);
+    dispatch(getQuestionsCorrectQuestionsAction(0));
+    dispatch(getQuestionsAction(9, DIFFICULTY[newLevel]));
   }
 
-  function isSameLevel(newTemplate: any) {
-    return (
-      newTemplate[0].question.difficulty ===
-        newTemplate[1].question.difficulty &&
-      newTemplate[0].question.difficulty === newTemplate[2].question.difficulty
-    );
-  }
+  function getPreviusDifficulty() {
+    const newLevel = idCurrentLevel - 1;
 
-  function getNextDifficulty(newTemplate: any) {
-    if (isSameLevel(newTemplate)) {
-      const newLevel = idCurrentLevel + 1;
-      setIdCurrentlLevel(newLevel);
-
-      dispatch(getQuestionsAction(9, DIFFICULTY[newLevel]));
-    }
-  }
-
-  function getPreviusDifficulty(newTemplate: any) {
-    if (!isSameLevel(newTemplate)) {
-      const newLevel = idCurrentLevel - 1;
-      setIdCurrentlLevel(newLevel);
-
-      dispatch(getQuestionsAction(9, DIFFICULTY[newLevel]));
-    }
+    setIdCurrentlLevel(newLevel);
+    dispatch(getQuestionsAction(9, DIFFICULTY[newLevel]));
   }
 
   function handleResute() {
@@ -85,14 +69,18 @@ const Quest: React.FC = () => {
   }
 
   async function handleNextQuestion() {
-    const idNextQuestion = idCurrentQuestion + 1;
-    setIdCurrentQuestion(idNextQuestion);
-
-    // verificar se acertou
+    // const idNextQuestion = idCurrentQuestion + 1;
+    setIdCurrentQuestion(idCurrentQuestion + 1);
     const IsCorrect = currentQuestion?.correct_answer === usarAnswer;
 
-    // add no gab
-    console.tron.log('current', currentQuestion);
+    // verificando e guardando acertos
+    if (IsCorrect) {
+      dispatch(getQuestionsInCorrectQuestionsAction(0));
+      dispatch(getQuestionsCorrectQuestionsAction(correctQuestions + 1));
+    } else {
+      dispatch(getQuestionsCorrectQuestionsAction(0));
+      dispatch(getQuestionsInCorrectQuestionsAction(incorrectQuestions + 1));
+    }
 
     const newTemplate = cloneDeep(template);
     newTemplate.push({ gab: IsCorrect, question: currentQuestion });
@@ -100,21 +88,15 @@ const Quest: React.FC = () => {
 
     // verificando se acertou as 3 ultimas
     // ao menos 3 para fazer a vefiricação
-    if (
-      idCurrentQuestion >= 2 &&
-      isCorrect(newTemplate) &&
-      isSameLevel(newTemplate) &&
-      idCurrentLevel !== DIFFICULTY.length - 1
-    ) {
-      return getNextDifficulty(newTemplate);
+    if (correctQuestions === 2 && idCurrentLevel !== DIFFICULTY.length - 1) {
+      return getNextDifficulty();
     }
-    if (idCurrentLevel !== 0 && !isCorrect(newTemplate)) {
-      return getPreviusDifficulty(newTemplate);
+
+    if (idCurrentLevel !== 0 && incorrectQuestions === 2) {
+      return getPreviusDifficulty();
     }
 
     // pegando proxima quest
-    // const idNextQuestion = idCurrentQuestion + 1;
-
     return setCurrentQuestion(questionsList[idCurrentQuestion]);
   }
 
