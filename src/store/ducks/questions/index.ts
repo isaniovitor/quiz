@@ -4,9 +4,10 @@ import type { QuestionsState } from './types';
 import { QuestionsTypes } from './types';
 
 const INITIAL_STATE: QuestionsState = {
+  template: [],
   questionsList: [],
-  loadingCategory: false,
-  errorGetCategory: false,
+  loadingQuestions: false,
+  errorGetQuestions: false,
 };
 
 const reducer: Reducer<QuestionsState> = (
@@ -17,21 +18,26 @@ const reducer: Reducer<QuestionsState> = (
     case QuestionsTypes.GET_QUESTION:
       return {
         ...state,
-        loadingCategory: true,
+        loadingQuestions: true,
       };
     case QuestionsTypes.GET_QUESTION_SUCCESS:
       return {
         ...state,
         questionsList: payload.questionsList,
-        loadingCategory: false,
-        errorGetCategory: false,
+        loadingQuestions: false,
+        errorGetQuestions: false,
+      };
+    case QuestionsTypes.GET_TEMPLATE:
+      return {
+        ...state,
+        template: payload.template,
       };
     case QuestionsTypes.GET_QUESTION_ERROR:
       return {
         ...state,
         questionsList: [],
-        loadingCategory: false,
-        errorGetCategory: true,
+        loadingQuestions: false,
+        errorGetQuestions: true,
       };
     default:
       return state;

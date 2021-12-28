@@ -1,11 +1,19 @@
 import { action } from 'typesafe-actions';
 
+import type { TemplateProps } from '~/@types/entities/TamplateQuests';
+
 import type {
   GetQuestionsActionProps,
   GetQuestionsErrorActionProps,
   GetQuestionsSuccessActionProps,
+  GetQuestionsTemplateProps,
 } from './types';
 import { QuestionsTypes } from './types';
+
+export const getQuestionsTemplateAction = (
+  template: TemplateProps[],
+): GetQuestionsTemplateProps =>
+  action(QuestionsTypes.GET_TEMPLATE, { template });
 
 export const getQuestionsAction = (
   idCategory: number,

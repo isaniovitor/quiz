@@ -33,31 +33,26 @@ export function Picker({
     <S.Container>
       <S.ContainerPicker>
         {title && <S.Title>{title}</S.Title>}
-        {!showList && (
+        {!showList ? (
           <S.Touchable
             disabled={disabled}
             onPress={() => setShowList(!showList)}
           >
             <S.PlaceholderText>
-              {itemSelect || 'Selecione a categoria'}
+              {itemSelect.name || 'Selecione a categoria'}
             </S.PlaceholderText>
             <S.IconPicker
-              color={Colors.WHITE}
+              color={Colors.BACKGROUND_BUTTON_WHITE}
               size={20}
               type="font-5"
               name={showList ? 'angle-up' : 'angle-down'}
             />
           </S.Touchable>
-        )}
-
-        {showList && (
+        ) : (
           <S.ShowListConteiner>
             {genders.map(gender => {
               return (
-                <S.Touchable
-                  key={gender.id}
-                  onPress={() => selectItem(gender.name)}
-                >
+                <S.Touchable key={gender.id} onPress={() => selectItem(gender)}>
                   <S.ContainerList>
                     <S.TitleItem>{gender.name}</S.TitleItem>
                   </S.ContainerList>

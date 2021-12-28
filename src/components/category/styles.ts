@@ -45,3 +45,5 @@ export const IconInput = styled(Icon).attrs(({ theme }) => ({
   size: 24,
   color: theme.Colors.BUTTON_WHITE_TEXT,
 }))``;
+
+export const Indicator = styled.ActivityIndicator``;

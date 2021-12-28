@@ -8,7 +8,7 @@ export const Container = styled.View`
   justify-content: center;
   align-items: flex-start;
   border: none;
-  border-color: ${({ theme }) => theme.Colors.WHITE};
+  border-color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
   border-bottom-width: 1px;
 `;
 

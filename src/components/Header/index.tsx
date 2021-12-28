@@ -10,7 +10,10 @@ import {
   incrementFontSize,
   recoveryFontSize,
 } from '~/store/ducks/font/actions';
-import { getQuestionsSuccessAction } from '~/store/ducks/questions/actions';
+import {
+  getQuestionsSuccessAction,
+  getQuestionsTemplateAction,
+} from '~/store/ducks/questions/actions';
 import { toogleTheme } from '~/store/ducks/theme/actions';
 
 import * as Sty from './styles';
@@ -34,6 +37,7 @@ export function Header({
 
   function handleHome() {
     dispatch(getQuestionsSuccessAction([]));
+    dispatch(getQuestionsTemplateAction([]));
     navigation.goBack();
   }
 
@@ -86,8 +90,8 @@ export function Header({
                   iconLeft="search"
                   iconType="ionicons"
                   placeholder="Digite uma categoria"
-                  // value={userName}
-                  // onChangeText={setUserName}
+                  value={options.search}
+                  onChangeText={options.setSearch}
                   width={100}
                 />
               </Sty.InputContainer>

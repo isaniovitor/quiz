@@ -28,6 +28,7 @@ function* getQuestionsSagas(action: GetQuestionsActionProps) {
 
     if (response.status >= 200 && response.status < 300) {
       const questionsList = response.data.results;
+      // const tamplate = [];
       console.tron.log('questionsList', questionsList);
       yield put(getQuestionsSuccessAction(questionsList));
     } else {

@@ -11,7 +11,10 @@ import ResultQuiz from '~/components/ResultQuiz';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
 import { HOME_SCREEN, RESULT_SCREEN } from '~/constants/routes';
-import { getQuestionsSuccessAction } from '~/store/ducks/questions/actions';
+import {
+  getQuestionsSuccessAction,
+  getQuestionsTemplateAction,
+} from '~/store/ducks/questions/actions';
 
 import * as Sty from './styles';
 
@@ -26,6 +29,7 @@ const Result: React.FC = () => {
 
   function handleHome() {
     dispatch(getQuestionsSuccessAction([]));
+    dispatch(getQuestionsTemplateAction([]));
     navigation.navigate(HOME_SCREEN);
   }
 

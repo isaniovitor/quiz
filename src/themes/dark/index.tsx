@@ -5,6 +5,7 @@ export default {
     GRAY: '#333',
     FONT_INPUT: '#444444',
     MEDIUM_GRAY: '#666',
+    BLACK_TEXT: '#FFF',
     LIGHT_GRAY: '#EEE',
     GRANITE: '#c8c9c7',
     ERROR: '#EEE',

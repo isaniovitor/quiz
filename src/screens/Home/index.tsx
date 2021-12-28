@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Button from '~/components/Button';
 import ButtonCategory from '~/components/category';
+import Indicator from '~/components/Indicator';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
-import type { CategoryProps } from '~/@types/entities/Category';
+import type { QuestionProps } from '~/@types/entities/Question';
 import { PROFILE_SCREEN, QUEST_SCREEN } from '~/constants/routes';
 import { getQuestionsAction } from '~/store/ducks/questions/actions';
 
@@ -16,21 +16,24 @@ import * as Sty from './styles';
 const Home: React.FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [search, setSearch] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [listItemsFilter, setListItemsFilter] = useState<QuestionProps[] | []>(
+    [],
+  );
   const { categoryList } = useSelector(
     (state: AplicationState) => state.category,
   );
-  // const { questionsList } = useSelector(
-  //   (state: AplicationState) => state.question,
-  // );
+  const { loadingQuestions } = useSelector(
+    (state: AplicationState) => state.questions,
+  );
 
-  function handleViewProfile() {
+  const handleViewProfile = useCallback(() => {
     navigation.navigate(PROFILE_SCREEN);
-  }
+  }, [navigation]);
 
   function handleQuest(id: number) {
     dispatch(getQuestionsAction(id, 'easy'));
-    // console.tron.log('quests', questionsList);
-    navigation.navigate(QUEST_SCREEN);
   }
 
   // header navegation
@@ -38,8 +41,37 @@ const Home: React.FC = () => {
     navigation.setOptions({
       iconProfile: true,
       iconProfileAction: handleViewProfile,
+      search,
+      setSearch,
     });
-  }, [navigation, handleViewProfile]);
+  }, [navigation, handleViewProfile, search]);
+
+  // start search effects
+  const updateItemsFilter = useCallback(() => {
+    let itemsFilter: QuestionProps[] | [] = [];
+    itemsFilter = categoryList.filter(listItem => {
+      return listItem.name.toUpperCase().includes(search.toUpperCase());
+    });
+
+    setListItemsFilter(itemsFilter);
+  }, [categoryList, search]);
+
+  useEffect(() => {
+    if (search) {
+      updateItemsFilter();
+    } else {
+      setListItemsFilter([]);
+    }
+  }, [search, updateItemsFilter]);
+  // end search effects
+
+  useEffect(() => {
+    if (loadingQuestions) setVisible(true);
+    else {
+      navigation.navigate(QUEST_SCREEN);
+      setVisible(false);
+    }
+  }, [navigation, loadingQuestions]);
 
   function renderCategory({ item }: any) {
     return (
@@ -52,14 +84,25 @@ const Home: React.FC = () => {
 
   return (
     <Sty.Container>
+      {visible && <Indicator label="Montando questões, aguarde!" />}
+
       <Sty.ListContainer>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={categoryList}
-          extraData={categoryList}
-          renderItem={renderCategory}
-          keyExtractor={(item: any, index: any) => index}
-        />
+        {listItemsFilter.length > 0 ? (
+          <FlatList
+            data={listItemsFilter}
+            extraData={listItemsFilter}
+            renderItem={renderCategory}
+            keyExtractor={(item: any, index: any) => index}
+          />
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={categoryList}
+            extraData={categoryList}
+            renderItem={renderCategory}
+            keyExtractor={(item: any, index: any) => index}
+          />
+        )}
       </Sty.ListContainer>
     </Sty.Container>
   );

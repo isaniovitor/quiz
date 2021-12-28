@@ -11,8 +11,8 @@ import * as S from './styles';
 interface Props {
   visible: boolean;
   setVisible: (show: boolean) => void;
-  actionButtonLeft: () => Promise<void>;
-  actionButtonRight: () => void;
+  actionButtonLeft?: () => Promise<void>;
+  actionButtonRight?: () => void;
 }
 
 export function ModalGlobal({

@@ -33,12 +33,10 @@ interface DataProps {
 }
 
 const Profile: React.FC = () => {
-  const { Colors } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [visible, setVisible] = useState(false);
-
   const { username, userimage, email, password, birthdate, gender } =
     useSelector((state: AplicationState) => state.user);
 
@@ -76,9 +74,9 @@ const Profile: React.FC = () => {
       validateOnChange: false,
     });
 
-  function handlegender(item: any) {
-    setFieldValue('gender', item);
-  }
+  // function handlegender(item: any) {
+  //   setFieldValue('gender', item);
+  // }
 
   // image config
   useEffect(() => {
@@ -138,6 +136,7 @@ const Profile: React.FC = () => {
     });
   }, [handleSubmit, navigation]);
 
+  console.tron.log('gender', values.gender);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -194,17 +193,15 @@ const Profile: React.FC = () => {
             onChangeText={handleChange('birthdate')}
             width={100}
           />
-          {/* <Picker
+          <Picker
             title="Gênero"
             itemSelect={values.gender}
             setItem={item => {
-              setFieldValue('gender', item.id);
-              // const new_gender: GenderProps = { id: item.id, name: item.name };
-              // setFieldValue('gender', item.id);
+              setFieldValue('gender', item);
             }}
             genders={GENDERS}
             disabled={false}
-          /> */}
+          />
         </Sty.InputsContainer>
         <Sty.ButtonContainer>
           <Button label="Sair" actionBtn={() => logout()} />
