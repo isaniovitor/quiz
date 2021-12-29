@@ -1,14 +1,6 @@
-import { useNavigation } from '@react-navigation/core';
-import { cloneDeep } from 'lodash';
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import { Portal, Modal } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components/native';
-
-import type { AplicationState } from '~/@types/entities/AplicationState';
-import correct from '~/assets/correct.png';
-import incorrect from '~/assets/incorrect.png';
 
 import * as S from './styles';
 

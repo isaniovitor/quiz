@@ -1,17 +1,9 @@
 import React, { useContext } from 'react';
 import type { TextInputProps } from 'react-native';
-import { Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ThemeContext } from 'styled-components';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
-
-import Picker from '../DropDown';
-
-// import { sfs } from '~/utils/responsibleText';
-
-// import DropDwon from '../dropDwon';
-// import { Text } from '../text/styles';
 
 import * as S from './styles';
 

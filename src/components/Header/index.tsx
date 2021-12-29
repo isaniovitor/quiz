@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Input from '~/components/Input';
@@ -33,7 +32,6 @@ export function Header({
   navigation,
   options,
 }: HeaderProps) {
-  // const { theme } = useSelector((state: AplicationState) => state.theme);
   const { userimage } = useSelector((state: AplicationState) => state.user);
   const dispatch = useDispatch();
 

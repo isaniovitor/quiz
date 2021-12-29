@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { FlatList } from 'react-native';
 import { ThemeContext } from 'styled-components/native';
 
 import type { GenderProps } from '~/@types/entities/Gender';

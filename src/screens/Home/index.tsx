@@ -72,7 +72,7 @@ const Home: React.FC = () => {
       navigation.navigate(QUEST_SCREEN, { category: idSelectedCategory });
       setVisible(false);
     }
-  }, [navigation, loadingQuestions]);
+  }, [navigation, loadingQuestions, idSelectedCategory]);
 
   function renderCategory({ item }: any) {
     return (

@@ -26,6 +26,7 @@ export function FeedBackModal({
   return (
     <Portal>
       <Modal
+        dismissable={false}
         visible={visible}
         onDismiss={hideModal}
         contentContainerStyle={S.containerModal}

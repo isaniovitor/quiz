@@ -71,7 +71,7 @@ const Quest: React.FC = () => {
     dispatch(getQuestionsAction(category, DIFFICULTY[idCurrentLevel - 1]));
   }
 
-  console.tron.log('certa - errada', correctQuestions, incorrectQuestions);
+  // console.tron.log('certa - errada', correctQuestions, incorrectQuestions);
   function handleNextQuestion() {
     let numberCorrect = correctQuestions;
     let numberIncorrect = incorrectQuestions;

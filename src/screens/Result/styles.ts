@@ -13,7 +13,6 @@ export const Container = styled.View`
 
 // result
 export const ResultContainer = styled.View`
-  /* text-justify: distribute; */
   flex: 0.28;
   justify-content: center;
   align-items: center;
@@ -30,7 +29,6 @@ export const ResultContainer = styled.View`
 export const ResultTitle = styled(Text).attrs(({ theme }) => ({
   fontSize: 55,
 }))`
-  /* font-size: 57px; */
   text-align: justify;
 
   color: ${({ theme }) => theme.Colors.TEXT_BLUE_WHITE};
@@ -42,12 +40,9 @@ export const ResumeContainer = styled.View`
   justify-content: space-evenly;
   align-items: center;
 
-  /* border: 1px solid red;
-  border-top-left-radius: 50px; */
   border: 1px solid ${({ theme }) => theme.Colors.WHITE};
   background: ${({ theme }) => theme.Colors.BACKGROUND_WHITE};
   border-radius: 20px;
-  /* padding: 30px 0; */
 
   width: 90%;
 `;
@@ -61,8 +56,6 @@ export const Resume = styled.View`
   border-radius: 50px;
 
   background-color: ${({ theme }) => theme.Colors.BACKGROUND_BUTTON_WHITE};
-  /* border: 1px solid red;
-  border-top-left-radius: 50px; */
 
   width: 90%;
 `;

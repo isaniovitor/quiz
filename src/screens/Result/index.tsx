@@ -29,8 +29,6 @@ const Result: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // console.tron.log(template);
-
   function handleHome() {
     dispatch(getQuestionsInCorrectQuestionsAction(0));
     dispatch(getQuestionsCorrectQuestionsAction(0));

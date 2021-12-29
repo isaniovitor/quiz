@@ -10,7 +10,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ label, actionBtn, disabled }) => {
   return (
-    <Sty.Button disabled={disabled} onPress={actionBtn}>
+    <Sty.Button isDisabled={!!disabled} disabled={disabled} onPress={actionBtn}>
       <Sty.TextButton>{label}</Sty.TextButton>
     </Sty.Button>
   );
