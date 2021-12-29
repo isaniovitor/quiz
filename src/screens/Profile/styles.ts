@@ -73,5 +73,5 @@ export const IconInput = styled(Icon).attrs(({ theme }) => ({
   type: 'ionicons',
   name: 'person',
   size: 100,
-  color: theme.Colors.WHITE,
+  color: theme.Colors.BACKGROUND_BUTTON_WHITE,
 }))``;

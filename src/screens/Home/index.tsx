@@ -18,6 +18,7 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [visible, setVisible] = useState(false);
+  const [idSelectedCategory, setIdSelectedCategory] = useState(0);
   const [listItemsFilter, setListItemsFilter] = useState<QuestionProps[] | []>(
     [],
   );
@@ -68,7 +69,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (loadingQuestions) setVisible(true);
     else {
-      navigation.navigate(QUEST_SCREEN);
+      navigation.navigate(QUEST_SCREEN, { category: idSelectedCategory });
       setVisible(false);
     }
   }, [navigation, loadingQuestions]);
@@ -77,7 +78,10 @@ const Home: React.FC = () => {
     return (
       <ButtonCategory
         label={item.name}
-        actionBtn={() => handleQuest(item.id)}
+        actionBtn={() => {
+          handleQuest(item.id);
+          setIdSelectedCategory(item.id);
+        }}
       />
     );
   }

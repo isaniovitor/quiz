@@ -1,16 +1,19 @@
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Answer from '~/components/Answer';
 import Button from '~/components/Button';
+import { FeedBackModal } from '~/components/FeedBackModal';
 import Indicator from '~/components/Indicator';
 import Question from '~/components/Question';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
 import type { QuestionProps } from '~/@types/entities/Question';
+import correct from '~/assets/correct.png';
+import incorrect from '~/assets/incorrect.png';
 import { DIFFICULTY } from '~/constants/difficulty';
 import { RESULT_SCREEN } from '~/constants/routes';
 import {
@@ -26,13 +29,13 @@ import * as Sty from './styles';
 
 // PEGAR CATEGORIA DE HOME
 const Quest: React.FC = () => {
+  const route = useRoute();
   const dispatch = useDispatch();
+  const { category } = route.params;
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   const [usarAnswer, setUsarAnswer] = useState<string | undefined>('');
-
   const [idCheckBoxSelected, setIdidCheckBoxSelected] = useState(-1);
   const [idCurrentLevel, setIdCurrentlLevel] = useState(0);
   const [idCurrentQuestion, setIdCurrentQuestion] = useState(0);
@@ -48,6 +51,10 @@ const Quest: React.FC = () => {
     navigation.navigate(RESULT_SCREEN);
   }
 
+  function alert() {
+    Alert.alert('Atenção:', `Selecione uma alternativa`, [{ text: 'OK' }]);
+  }
+
   function showModal() {
     setModalVisible(true);
   }
@@ -55,46 +62,60 @@ const Quest: React.FC = () => {
   function getNextDifficulty() {
     setIdCurrentlLevel(idCurrentLevel + 1);
     dispatch(getQuestionsCorrectQuestionsAction(0));
-    dispatch(getQuestionsAction(9, DIFFICULTY[idCurrentLevel + 1]));
+    dispatch(getQuestionsAction(category, DIFFICULTY[idCurrentLevel + 1]));
   }
 
   function getPreviusDifficulty() {
     setIdCurrentlLevel(idCurrentLevel - 1);
     dispatch(getQuestionsInCorrectQuestionsAction(0));
-    dispatch(getQuestionsAction(9, DIFFICULTY[idCurrentLevel - 1]));
+    dispatch(getQuestionsAction(category, DIFFICULTY[idCurrentLevel - 1]));
   }
 
+  console.tron.log('certa - errada', correctQuestions, incorrectQuestions);
   function handleNextQuestion() {
+    let numberCorrect = correctQuestions;
+    let numberIncorrect = incorrectQuestions;
     const newTemplate = cloneDeep(template);
     const IsCorrect = currentQuestion?.correct_answer === usarAnswer;
 
+    // add quest no gabarito
     newTemplate.push({ gab: IsCorrect, question: currentQuestion });
     dispatch(getQuestionsTemplateAction(newTemplate));
 
+    // reset
+    setModalVisible(false);
+    setIdidCheckBoxSelected(-1);
+
     // verificando e guardando acertos
-    // FAZER UM NOVO ACITON?
     if (IsCorrect) {
-      dispatch(getQuestionsInCorrectQuestionsAction(0));
-      dispatch(getQuestionsCorrectQuestionsAction(correctQuestions + 1));
+      numberCorrect = correctQuestions + 1;
+      numberIncorrect = 0;
     } else {
-      dispatch(getQuestionsCorrectQuestionsAction(0));
-      dispatch(getQuestionsInCorrectQuestionsAction(incorrectQuestions + 1));
+      numberCorrect = 0;
+      numberIncorrect = incorrectQuestions + 1;
+    }
+
+    dispatch(getQuestionsCorrectQuestionsAction(numberCorrect));
+    dispatch(getQuestionsInCorrectQuestionsAction(numberIncorrect));
+
+    // indo para screen result
+    if (idCurrentQuestion >= 9) {
+      return handleResute();
     }
 
     // verificando se acertou as 3 ultimas
-    if (correctQuestions === 2 && idCurrentLevel !== DIFFICULTY.length - 1) {
-      return getNextDifficulty();
+    if (numberCorrect === 3 && idCurrentLevel !== DIFFICULTY.length - 1) {
+      getNextDifficulty();
     }
 
     // verificando se errou as 3 ultimas
-    if (idCurrentLevel !== 0 && incorrectQuestions === 2) {
-      return getPreviusDifficulty();
+    if (idCurrentLevel !== 0 && numberIncorrect === 3) {
+      getPreviusDifficulty();
     }
 
     // pegando proxima quest
-    setModalVisible(false);
     setIdCurrentQuestion(idCurrentQuestion + 1);
-    return setCurrentQuestion(questionsList[idCurrentQuestion]);
+    return setCurrentQuestion(questionsList[idCurrentQuestion + 1]);
   }
 
   // nagegation
@@ -138,16 +159,19 @@ const Quest: React.FC = () => {
     >
       <Sty.Container>
         {visible && <Indicator label="Aguarde!" />}
-        {/* {modalVisible && (
-
-          // <ModalGlobal
-          //   answer={currentQuestion?.correct_answer === usarAnswer}
-          //   visible={modalVisible}
-          //   setVisible={setModalVisible}
-          //   labelButtonLeft="Próxima"
-          //   actionButtonLeft={handleNextQuestion}
-          // />
-        )} */}
+        {modalVisible && (
+          <FeedBackModal
+            image={
+              currentQuestion?.correct_answer === usarAnswer
+                ? correct
+                : incorrect
+            }
+            visible={modalVisible}
+            setVisible={setModalVisible}
+            labelButton="Próxima"
+            actionButton={handleNextQuestion}
+          />
+        )}
 
         <Question label={currentQuestion?.question} />
         <Sty.AnswerContainer>
@@ -193,7 +217,7 @@ const Quest: React.FC = () => {
           <Button
             label={idCurrentQuestion < 9 ? 'Verificar' : 'Finalizar'}
             actionBtn={() =>
-              idCurrentQuestion < 9 ? handleNextQuestion() : handleResute()
+              idCheckBoxSelected === -1 ? alert() : showModal()
             }
           />
         </Sty.ButtonContainer>

@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThemeContext } from 'styled-components/native';
 
 import Button from '~/components/Button';
 import ResultQuiz from '~/components/ResultQuiz';
@@ -19,6 +20,7 @@ import * as Sty from './styles';
 
 const Result: React.FC = () => {
   const { template } = useSelector((state: AplicationState) => state.questions);
+  const { Colors } = useContext(ThemeContext);
 
   const [numEasy, setNumEasy] = useState(0);
   const [numMedium, setNumMedium] = useState(0);
@@ -26,6 +28,8 @@ const Result: React.FC = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  // console.tron.log(template);
 
   function handleHome() {
     dispatch(getQuestionsInCorrectQuestionsAction(0));
@@ -74,7 +78,12 @@ const Result: React.FC = () => {
       style={{ flex: 1 }}
     >
       <Sty.Container>
-        <Sty.ResultContainer>
+        <Sty.ResultContainer
+          style={{
+            backgroundColor:
+              numEasy + numMedium + numHard >= 7 ? 'green' : 'red',
+          }}
+        >
           <Sty.ResultTitle>{numEasy + numMedium + numHard}0%</Sty.ResultTitle>
         </Sty.ResultContainer>
         <Sty.ResumeContainer>
