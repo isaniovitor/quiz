@@ -1,27 +1,36 @@
 import { useNavigation } from '@react-navigation/core';
 import { cloneDeep } from 'lodash';
-import React from 'react';
+import React, { useContext } from 'react';
+import { Text } from 'react-native';
 import { Portal, Modal } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import { ThemeContext } from 'styled-components/native';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
+import correct from '~/assets/correct.png';
+import incorrect from '~/assets/incorrect.png';
 
 import * as S from './styles';
 
 interface Props {
   visible: boolean;
   setVisible: (show: boolean) => void;
-  actionButtonLeft?: () => Promise<void>;
+  labelButtonLeft: string;
+  labelButtonRight?: string;
+  actionButtonLeft: () => void;
   actionButtonRight?: () => void;
 }
 
 export function ModalGlobal({
   visible,
   setVisible,
+  labelButtonLeft,
+  labelButtonRight,
   actionButtonLeft,
   actionButtonRight,
 }: Props) {
   const hideModal = () => setVisible(false);
+  const { Colors } = useContext(ThemeContext);
 
   return (
     <Portal>
@@ -30,13 +39,21 @@ export function ModalGlobal({
         onDismiss={hideModal}
         contentContainerStyle={S.containerModal}
       >
-        <S.Container>
+        <S.Container
+          style={{ backgroundColor: Colors.BACKGROUND_BUTTON_WHITE }}
+        >
           <S.Button onPress={() => actionButtonLeft()}>
-            <S.TextButton>Tirar foto</S.TextButton>
+            <S.TextButton style={{ color: Colors.BUTTONWHITE_TEXT }}>
+              {labelButtonLeft}
+            </S.TextButton>
           </S.Button>
-          <S.Button onPress={() => actionButtonRight()}>
-            <S.TextButton>Galeria</S.TextButton>
-          </S.Button>
+          {actionButtonRight && (
+            <S.Button onPress={() => actionButtonRight()}>
+              <S.TextButton style={{ color: Colors.BUTTONWHITE_TEXT }}>
+                {labelButtonRight}
+              </S.TextButton>
+            </S.Button>
+          )}
         </S.Container>
       </Modal>
     </Portal>

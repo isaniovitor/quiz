@@ -84,7 +84,7 @@ const Home: React.FC = () => {
 
   return (
     <Sty.Container>
-      {visible && <Indicator label="Montando questões, aguarde!" />}
+      {visible && <Indicator label="Aguarde!" />}
 
       <Sty.ListContainer>
         {listItemsFilter.length > 0 ? (

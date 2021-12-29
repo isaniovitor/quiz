@@ -1,12 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useFormik } from 'formik';
-import { cloneDeep } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, View, Alert } from 'react-native';
-import { Text } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
 import Picker from '~/components/DropDown';
@@ -74,10 +71,6 @@ const Profile: React.FC = () => {
       validateOnChange: false,
     });
 
-  // function handlegender(item: any) {
-  //   setFieldValue('gender', item);
-  // }
-
   // image config
   useEffect(() => {
     (async () => {
@@ -136,7 +129,6 @@ const Profile: React.FC = () => {
     });
   }, [handleSubmit, navigation]);
 
-  console.tron.log('gender', values.gender);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -149,6 +141,8 @@ const Profile: React.FC = () => {
             <ModalGlobal
               visible={visible}
               setVisible={setVisible}
+              labelButtonLeft="Tirar foto"
+              labelButtonRight="Galeria"
               actionButtonLeft={pickImage}
               actionButtonRight={selectImage}
             />

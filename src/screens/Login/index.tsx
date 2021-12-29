@@ -1,15 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { useFormik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, View } from 'react-native';
-import { Text } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { KeyboardAvoidingView, Platform } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 
-import type { AplicationState } from '~/@types/entities/AplicationState';
 import logo from '~/assets/logo.png';
 import { HOME_SCREEN } from '~/constants/routes';
 import { getCategoryAction } from '~/store/ducks/category/actions';

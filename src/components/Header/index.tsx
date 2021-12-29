@@ -11,6 +11,8 @@ import {
   recoveryFontSize,
 } from '~/store/ducks/font/actions';
 import {
+  getQuestionsCorrectQuestionsAction,
+  getQuestionsInCorrectQuestionsAction,
   getQuestionsSuccessAction,
   getQuestionsTemplateAction,
 } from '~/store/ducks/questions/actions';
@@ -36,6 +38,8 @@ export function Header({
   const dispatch = useDispatch();
 
   function handleHome() {
+    dispatch(getQuestionsInCorrectQuestionsAction(0));
+    dispatch(getQuestionsCorrectQuestionsAction(0));
     dispatch(getQuestionsSuccessAction([]));
     dispatch(getQuestionsTemplateAction([]));
     navigation.goBack();

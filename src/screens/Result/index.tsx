@@ -1,17 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
-import { Checkbox, Text } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThemeContext } from 'styled-components';
 
 import Button from '~/components/Button';
-import Input from '~/components/Input';
 import ResultQuiz from '~/components/ResultQuiz';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
-import { HOME_SCREEN, RESULT_SCREEN } from '~/constants/routes';
+import { HOME_SCREEN } from '~/constants/routes';
 import {
+  getQuestionsCorrectQuestionsAction,
+  getQuestionsInCorrectQuestionsAction,
   getQuestionsSuccessAction,
   getQuestionsTemplateAction,
 } from '~/store/ducks/questions/actions';
@@ -19,27 +18,54 @@ import {
 import * as Sty from './styles';
 
 const Result: React.FC = () => {
-  const [userName, setUserName] = useState('');
-  const [userPassword, setUsePassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const { template } = useSelector((state: AplicationState) => state.questions);
 
-  const navigation = useNavigation();
+  const [numEasy, setNumEasy] = useState(0);
+  const [numMedium, setNumMedium] = useState(0);
+  const [numHard, setNumHard] = useState(0);
+
   const dispatch = useDispatch();
-  const { Colors } = useContext(ThemeContext);
+  const navigation = useNavigation();
 
   function handleHome() {
+    dispatch(getQuestionsInCorrectQuestionsAction(0));
+    dispatch(getQuestionsCorrectQuestionsAction(0));
     dispatch(getQuestionsSuccessAction([]));
     dispatch(getQuestionsTemplateAction([]));
     navigation.navigate(HOME_SCREEN);
   }
 
   // header navegation
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     enableNavigation: true,
-  //     title: 'Resultado',
-  //   });
-  // }, [navigation]);
+  useEffect(() => {
+    let easy = 0;
+    let medium = 0;
+    let hard = 0;
+
+    template.map(quest => {
+      // se acertou
+      if (quest.gab) {
+        switch (quest.question.difficulty) {
+          case 'easy':
+            easy += 1;
+            break;
+          case 'medium':
+            medium += 1;
+            break;
+          case 'hard':
+            hard += 1;
+            break;
+          default:
+            return null;
+        }
+      }
+
+      return null;
+    });
+
+    setNumEasy(easy);
+    setNumMedium(medium);
+    setNumHard(hard);
+  }, [template]);
 
   return (
     <KeyboardAvoidingView
@@ -49,21 +75,12 @@ const Result: React.FC = () => {
     >
       <Sty.Container>
         <Sty.ResultContainer>
-          <Sty.ResultTitle>90%</Sty.ResultTitle>
+          <Sty.ResultTitle>{numEasy + numMedium + numHard}0%</Sty.ResultTitle>
         </Sty.ResultContainer>
         <Sty.ResumeContainer>
-          <ResultQuiz label="Fáceis" numberQuestions={2} />
-          <ResultQuiz label="Medianas" numberQuestions={1} />
-          <ResultQuiz label="Difíceis" numberQuestions={3} />
-          {/* <Sty.Resume>
-            <Text>7 fáceis</Text>
-          </Sty.Resume>
-          <Sty.Resume>
-            <Text>7 médias</Text>
-          </Sty.Resume>
-          <Sty.Resume>
-            <Text>7 difíceis</Text>
-          </Sty.Resume> */}
+          <ResultQuiz label="Fáceis" numberQuestions={numEasy} />
+          <ResultQuiz label="Medianas" numberQuestions={numMedium} />
+          <ResultQuiz label="Difíceis" numberQuestions={numHard} />
         </Sty.ResumeContainer>
         <Sty.ButtonContainer>
           <Button label="Menu" actionBtn={handleHome} />
