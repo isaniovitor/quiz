@@ -1,4 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
+import { decode } from 'html-entities';
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
@@ -71,7 +72,6 @@ const Quest: React.FC = () => {
     dispatch(getQuestionsAction(category, DIFFICULTY[idCurrentLevel - 1]));
   }
 
-  // console.tron.log('certa - errada', correctQuestions, incorrectQuestions);
   function handleNextQuestion() {
     let numberCorrect = correctQuestions;
     let numberIncorrect = incorrectQuestions;
@@ -138,9 +138,9 @@ const Quest: React.FC = () => {
   useEffect(() => {
     const newCurrentAnswers = [];
 
-    newCurrentAnswers.push(currentQuestion?.correct_answer);
+    newCurrentAnswers.push(decode(currentQuestion?.correct_answer));
     currentQuestion?.incorrect_answers.map(answer => {
-      return newCurrentAnswers.push(answer);
+      return newCurrentAnswers.push(decode(answer));
     });
 
     fisherYatesShuffle(newCurrentAnswers);
@@ -173,7 +173,7 @@ const Quest: React.FC = () => {
           />
         )}
 
-        <Question label={currentQuestion?.question} />
+        <Question label={decode(currentQuestion?.question)} />
         <Sty.AnswerContainer>
           <Answer
             idkey={0}

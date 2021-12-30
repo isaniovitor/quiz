@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ButtonCategory from '~/components/category';
 import Indicator from '~/components/Indicator';
 
 import type { AplicationState } from '~/@types/entities/AplicationState';
-import type { QuestionProps } from '~/@types/entities/Question';
+import type { CategoryProps } from '~/@types/entities/Category';
 import { PROFILE_SCREEN, QUEST_SCREEN } from '~/constants/routes';
 import { getQuestionsAction } from '~/store/ducks/questions/actions';
 
@@ -17,9 +17,10 @@ const Home: React.FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [search, setSearch] = useState('');
+  const [currentList, setCurrentList] = useState<CategoryProps[] | []>([]);
   const [visible, setVisible] = useState(false);
   const [idSelectedCategory, setIdSelectedCategory] = useState(0);
-  const [listItemsFilter, setListItemsFilter] = useState<QuestionProps[] | []>(
+  const [listItemsFilter, setListItemsFilter] = useState<CategoryProps[] | []>(
     [],
   );
   const { categoryList } = useSelector(
@@ -27,6 +28,9 @@ const Home: React.FC = () => {
   );
   const { loadingQuestions } = useSelector(
     (state: AplicationState) => state.questions,
+  );
+  const { loadingCategory } = useSelector(
+    (state: AplicationState) => state.category,
   );
 
   const handleViewProfile = useCallback(() => {
@@ -49,7 +53,7 @@ const Home: React.FC = () => {
 
   // start search effects
   const updateItemsFilter = useCallback(() => {
-    let itemsFilter: QuestionProps[] | [] = [];
+    let itemsFilter: CategoryProps[] | [] = [];
     itemsFilter = categoryList.filter(listItem => {
       return listItem.name.toUpperCase().includes(search.toUpperCase());
     });
@@ -64,49 +68,43 @@ const Home: React.FC = () => {
       setListItemsFilter([]);
     }
   }, [search, updateItemsFilter]);
+
+  useEffect(() => {
+    if (listItemsFilter.length > 0) {
+      setCurrentList(listItemsFilter);
+    } else {
+      setCurrentList(categoryList);
+    }
+  }, [categoryList, listItemsFilter]);
   // end search effects
 
   useEffect(() => {
     if (loadingQuestions) setVisible(true);
     else {
-      navigation.navigate(QUEST_SCREEN, { category: idSelectedCategory });
       setVisible(false);
+      navigation.navigate(QUEST_SCREEN, { category: idSelectedCategory });
     }
-  }, [navigation, loadingQuestions, idSelectedCategory]);
-
-  function renderCategory({ item }: any) {
-    return (
-      <ButtonCategory
-        label={item.name}
-        actionBtn={() => {
-          handleQuest(item.id);
-          setIdSelectedCategory(item.id);
-        }}
-      />
-    );
-  }
+  }, [navigation, loadingQuestions, idSelectedCategory, loadingCategory]);
 
   return (
     <Sty.Container>
       {visible && <Indicator label="Aguarde!" />}
 
       <Sty.ListContainer>
-        {listItemsFilter.length > 0 ? (
-          <FlatList
-            data={listItemsFilter}
-            extraData={listItemsFilter}
-            renderItem={renderCategory}
-            keyExtractor={(item: any, index: any) => index}
-          />
-        ) : (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={categoryList}
-            extraData={categoryList}
-            renderItem={renderCategory}
-            keyExtractor={(item: any, index: any) => index}
-          />
-        )}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {currentList.map(categoty => {
+            return (
+              <ButtonCategory
+                key={categoty.id}
+                label={categoty.name}
+                actionBtn={() => {
+                  handleQuest(categoty.id);
+                  setIdSelectedCategory(categoty.id);
+                }}
+              />
+            );
+          })}
+        </ScrollView>
       </Sty.ListContainer>
     </Sty.Container>
   );
