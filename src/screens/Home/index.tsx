@@ -29,9 +29,6 @@ const Home: React.FC = () => {
   const { loadingQuestions } = useSelector(
     (state: AplicationState) => state.questions,
   );
-  const { loadingCategory } = useSelector(
-    (state: AplicationState) => state.category,
-  );
 
   const handleViewProfile = useCallback(() => {
     navigation.navigate(PROFILE_SCREEN);
@@ -80,11 +77,11 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (loadingQuestions) setVisible(true);
-    else {
+    else if (idSelectedCategory !== 0) {
       setVisible(false);
       navigation.navigate(QUEST_SCREEN, { category: idSelectedCategory });
     }
-  }, [navigation, loadingQuestions, idSelectedCategory, loadingCategory]);
+  }, [navigation, loadingQuestions, idSelectedCategory]);
 
   return (
     <Sty.Container>
